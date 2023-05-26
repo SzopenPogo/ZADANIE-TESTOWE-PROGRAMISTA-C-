@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour, Controls.IPlayerActions
 {
+    public static InputReader Instance;
+
     //Scripts
     private Controls controls;
 
@@ -20,6 +22,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     //Actions
     public Action MouseLeftClickEvent;
 
+    private void Awake() => Instance = this;
 
     private void Start()
     {
