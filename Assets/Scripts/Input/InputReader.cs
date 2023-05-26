@@ -21,6 +21,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 
     //Actions
     public Action MouseLeftClickEvent;
+    public Action CancelClickEvent;
 
     private void Awake() => Instance = this;
 
@@ -61,5 +62,13 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
         }
         if (context.canceled)
             IsLeftMouseButtonPressed = false;
+    }
+
+    public void OnCancel(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+            return;
+
+        CancelClickEvent?.Invoke();
     }
 }

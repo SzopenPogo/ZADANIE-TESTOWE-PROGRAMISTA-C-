@@ -138,6 +138,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6102983728663644096, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
+        type: 3}
+      propertyPath: <MaxHealth>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2241412809993051253, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
+        type: 3}
+      propertyPath: <Agent>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 79159d79232c9c245a8cbcd99f181152,
+        type: 2}
     - target: {fileID: 3204582415015936731, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
         type: 3}
       propertyPath: m_RootOrder
@@ -146,7 +157,7 @@ PrefabInstance:
     - target: {fileID: 3204582415015936731, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.827
+      value: 0.7031739
       objectReference: {fileID: 0}
     - target: {fileID: 3204582415015936731, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
         type: 3}
@@ -156,7 +167,7 @@ PrefabInstance:
     - target: {fileID: 3204582415015936731, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 8.076629
       objectReference: {fileID: 0}
     - target: {fileID: 3204582415015936731, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
         type: 3}
@@ -198,6 +209,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Viking Agent Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 8755689514124871929, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
+        type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 5700005009907404678}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -207,6 +223,18 @@ PrefabInstance:
       addedObject: {fileID: 3966762442814719258}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec0e8ee6154cc6b41945ffee93a6ebd8, type: 3}
+--- !u!114 &5700005009907404678 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2241412809993051253, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5765000359934104563}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ecc1d69303db94f92c56513d705a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8969362801074245928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3204582415015936731, guid: ec0e8ee6154cc6b41945ffee93a6ebd8,
