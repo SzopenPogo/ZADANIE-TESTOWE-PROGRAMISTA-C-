@@ -7,7 +7,6 @@ public class AgentPatrolState : AgentBaseState
     //Animation
     private readonly int MovementBlendTreeHash = Animator.StringToHash("Movement Blend Tree");
     private readonly int MovementSpeedHash = Animator.StringToHash("Speed");
-    private const float AnimatorDampTime = 0.075f;
     private const float CrossFadeDuration = 0.2f;
 
     public AgentPatrolState(AgentStateMachine stateMachine) : base(stateMachine)
@@ -27,13 +26,13 @@ public class AgentPatrolState : AgentBaseState
         stateMachine.Animator.SetFloat(MovementSpeedHash, GetMovementSpeedPercent());
 
         //Subs
-        stateMachine.Combat.OnNewEnemyEvent += SetAttackState;
+        stateMachine.Combat.OnWaitingEvent += SetWaitingState;
     }
 
     public override void Exit()
     {
         //Subs
-        stateMachine.Combat.OnNewEnemyEvent -= SetAttackState;
+        stateMachine.Combat.OnWaitingEvent -= SetWaitingState;
     }
 
     public override void FixedTick(float deltaTime)

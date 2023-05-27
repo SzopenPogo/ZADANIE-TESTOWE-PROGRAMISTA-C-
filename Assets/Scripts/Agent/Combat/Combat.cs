@@ -7,78 +7,103 @@ public class Combat : MonoBehaviour
 {
     //Consts
     private const float ProtectionTime = 5f;
-    private const int Damage = 1;
 
     //Data
-    public bool IsInCombat { get; private set; }
     
     //Enemy Data
-    public Combat Enemy { get; private set; }
-    private List<Combat> waitingEnemies = new();
-    private List<Combat> enemiesOnProtection = new();
+    public Combat ActiveEnemy { get; private set; }
+    public List<Combat> WaitingEnemies { get; private set; } = new();
+    public List<Combat> EnemiesOnProtection { get; private set; } = new();
 
     //Actions
-    public Action OnNewEnemyEvent;
+    public Action OnWaitingEvent;
+    public Action OnAttackEvent;
 
-    public void SetInCombat(bool isInCombat) => IsInCombat = isInCombat;
-
-    private void AddEnemy(Combat newEnemy)
+    private void AddWaitingEnemy(Combat newEnemy)
     {
-        Enemy = newEnemy;
-        OnNewEnemyEvent?.Invoke();
+        //If New Enemy is on protection
+        if (EnemiesOnProtection.Contains(newEnemy))
+            return;
+
+        //If New Enemy already is in Waiting Enemies
+        if (WaitingEnemies.Contains(newEnemy))
+            return;
+
+        WaitingEnemies.Add(newEnemy);
+        newEnemy.OnWaitingEvent?.Invoke();
     }
 
-    public void TryAddNewEnemy(Combat newEnemy)
+    private void RemoveWaitingEnemy(Combat enemy)
     {
-        //If no enemy is waiting for attack
-        if (Enemy == null)
-        {
-            AddEnemy(newEnemy);
-            return;
-        }
-
-        //If enemy has been attacked before
-        //and his protection has not disappeared
-        if (enemiesOnProtection.Contains(newEnemy))
+        if (!WaitingEnemies.Contains(enemy))
             return;
 
-        //If new enemy already is on the list
-        if (waitingEnemies.Contains(newEnemy))
-            return;
+        WaitingEnemies.Remove(enemy);
+    }
 
-        waitingEnemies.Add(newEnemy);
+    public void AddEnemy(Combat newEnemy)
+    {
+        AddWaitingEnemy(newEnemy);
+
+        //Try to set This Agent to New Enemy waiting list
+        if(!newEnemy.WaitingEnemies.Contains(this))
+            newEnemy.AddWaitingEnemy(this);
     }
 
     private void ProtectEnemy(Combat attackedEnemy)
     {
-        enemiesOnProtection.Add(attackedEnemy);
+        EnemiesOnProtection.Add(attackedEnemy);
         StartCoroutine(RemoveProtection(attackedEnemy));
     }
 
-    private void SetNewEnemyFromWaitingList()
-    {
-        if (waitingEnemies.Count <= 0)
-        {
-            Enemy = null;
-            return;
-        }
-
-        //Set first enemy from the waiting list
-        AddEnemy(waitingEnemies[0]);
-    }
-
-    public void Attack()
-    {
-        if(Enemy.gameObject.TryGetComponent(out Health health))
-            health.DealDamage(Damage);
-
-        ProtectEnemy(Enemy);
-        SetNewEnemyFromWaitingList();
-    }
-
-    IEnumerator RemoveProtection(Combat attackedEnemy)
+    private IEnumerator RemoveProtection(Combat attackedEnemy)
     {
         yield return new WaitForSeconds(ProtectionTime);
-        enemiesOnProtection.Remove(attackedEnemy);
+        EnemiesOnProtection.Remove(attackedEnemy);
+    }
+
+    private bool TrySetActiveEnemy(Combat enemy)
+    {
+        if(ActiveEnemy != null)
+            return false;
+
+        ActiveEnemy = enemy;
+        return true;
+    }
+
+    private void AttackEnemy(Combat enemy)
+    {
+        //Try set enemy as an Active Enemy
+        if (!TrySetActiveEnemy(enemy))
+            return;
+        if (!enemy.TrySetActiveEnemy(this))
+            return;
+
+        //Invoke Events
+        OnAttackEvent?.Invoke();
+        enemy.OnAttackEvent.Invoke();
+
+        //Set protection
+        ProtectEnemy(enemy);
+        enemy.ProtectEnemy(this);
+
+        //Remove from waiting list
+        RemoveWaitingEnemy(enemy);
+        enemy.RemoveWaitingEnemy(this);
+    }
+
+    public void TryAttackEnemy()
+    {
+        if (ActiveEnemy != null)
+            return;
+
+        foreach (Combat enemy in WaitingEnemies)
+        {
+            if (enemy.ActiveEnemy != null)
+                continue;
+
+            AttackEnemy(enemy);
+            break;
+        }
     }
 }

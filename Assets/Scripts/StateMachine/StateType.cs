@@ -5,5 +5,6 @@ using UnityEngine;
 public enum StateType
 {
     Patrol,
-    Attack
+    Attack,
+    Idle
 }

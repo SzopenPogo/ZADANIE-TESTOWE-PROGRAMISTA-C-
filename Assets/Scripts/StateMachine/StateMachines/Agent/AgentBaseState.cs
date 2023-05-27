@@ -36,4 +36,45 @@ public abstract class AgentBaseState : State
     {
         stateMachine.SwitchState(new AgentAttackState(stateMachine));
     }
+
+    protected void SetWaitingState()
+    {
+        stateMachine.SwitchState(new AgentWaitingState(stateMachine));
+    }
+
+    protected float GetNormalizedTime(string animationTag)
+    {
+        AnimatorStateInfo currentInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo nextInfo = stateMachine.Animator.GetNextAnimatorStateInfo(0);
+
+        if (stateMachine.Animator.IsInTransition(0) && nextInfo.IsTag(animationTag))
+        {
+            return nextInfo.normalizedTime;
+        }
+        else if (!stateMachine.Animator.IsInTransition(0) && currentInfo.IsTag(animationTag))
+        {
+            return currentInfo.normalizedTime;
+        }
+        else
+        {
+            return 0f;
+        }
+    }
+
+    protected bool LookAtTarget(Transform targetTransform, float speed)
+    {
+        //Look Position
+        Vector3 lookPosition = targetTransform.position;
+        lookPosition.y = stateMachine.transform.position.y;
+
+        //Calculate target rotation
+        Quaternion targetRotation = Quaternion.LookRotation((lookPosition - stateMachine.transform.position));
+        targetRotation.x = 0f;
+        targetRotation.z = 0f;
+
+        //Rotate towards target position
+        stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, targetRotation, Time.deltaTime * speed);
+
+        return stateMachine.transform.rotation == targetRotation;
+    }
 }

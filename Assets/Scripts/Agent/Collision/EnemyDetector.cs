@@ -21,6 +21,6 @@ public class EnemyDetector : MonoBehaviour
 
         //Add new enemy
         if (other.TryGetComponent(out Combat enemy))
-            combat.TryAddNewEnemy(enemy);
+            combat.AddEnemy(enemy);
     }
 }
