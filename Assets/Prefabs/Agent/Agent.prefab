@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3204582415015936731}
   - component: {fileID: 5812040372347480942}
+  - component: {fileID: 4158168487582189251}
   - component: {fileID: -6102983728663644096}
   - component: {fileID: 2241412809993051253}
   - component: {fileID: 8755689514124871929}
+  - component: {fileID: -1789160474909525261}
   m_Layer: 6
   m_Name: Agent
   m_TagString: Untagged
@@ -57,6 +59,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0198336, y: 1.7754129, z: 0.3006873}
   m_Center: {x: 0.011349201, y: 0.8440164, z: 0.0050270557}
+--- !u!195 &4158168487582189251
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464348382680138394}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.45
+  m_Speed: 5
+  m_Acceleration: 1000
+  avoidancePriority: 50
+  m_AngularSpeed: 1000
+  m_StoppingDistance: 0.5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.7
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &-6102983728663644096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +122,20 @@ MonoBehaviour:
   health: {fileID: -6102983728663644096}
   data: {fileID: 0}
   pointLight: {fileID: 4646153479378846614}
+--- !u!114 &-1789160474909525261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464348382680138394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec9a6769fb5da6429c2f36c48c709f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentModel: {fileID: 0}
+  <MovementSpeed>k__BackingField: 3.03
 --- !u!1 &4646153479378846614
 GameObject:
   m_ObjectHideFlags: 0
