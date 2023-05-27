@@ -48,7 +48,7 @@ public class AgentAttackState : AgentBaseState
 
         if (normalizedTime > 1f)
         {
-
+            SetTakeDamageState();
         }
     }
 }

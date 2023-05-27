@@ -6,5 +6,6 @@ public enum StateType
 {
     Patrol,
     Attack,
-    Idle
+    Idle,
+    TakeDamage
 }

@@ -32,16 +32,6 @@ public abstract class AgentBaseState : State
         return false;
     }
 
-    protected void SetAttackState()
-    {
-        stateMachine.SwitchState(new AgentAttackState(stateMachine));
-    }
-
-    protected void SetWaitingState()
-    {
-        stateMachine.SwitchState(new AgentWaitingState(stateMachine));
-    }
-
     protected float GetNormalizedTime(string animationTag)
     {
         AnimatorStateInfo currentInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
@@ -76,5 +66,25 @@ public abstract class AgentBaseState : State
         stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, targetRotation, Time.deltaTime * speed);
 
         return stateMachine.transform.rotation == targetRotation;
+    }
+
+    protected void SetAttackState()
+    {
+        stateMachine.SwitchState(new AgentAttackState(stateMachine));
+    }
+
+    protected void SetWaitingState()
+    {
+        stateMachine.SwitchState(new AgentWaitingState(stateMachine));
+    }
+
+    protected void SetPatrolState()
+    {
+        stateMachine.SwitchState(new AgentPatrolState(stateMachine));
+    }
+
+    protected void SetTakeDamageState()
+    {
+        stateMachine.SwitchState(new AgentTakeDamageState(stateMachine));
     }
 }

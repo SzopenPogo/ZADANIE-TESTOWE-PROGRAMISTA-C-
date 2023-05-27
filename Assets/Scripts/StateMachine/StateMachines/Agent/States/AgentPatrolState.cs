@@ -27,12 +27,14 @@ public class AgentPatrolState : AgentBaseState
 
         //Subs
         stateMachine.Combat.OnWaitingEvent += SetWaitingState;
+        stateMachine.Combat.OnAttackEvent += SetAttackState;
     }
 
     public override void Exit()
     {
         //Subs
         stateMachine.Combat.OnWaitingEvent -= SetWaitingState;
+        stateMachine.Combat.OnAttackEvent -= SetAttackState;
     }
 
     public override void FixedTick(float deltaTime)

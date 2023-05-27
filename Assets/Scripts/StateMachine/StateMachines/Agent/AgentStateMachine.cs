@@ -27,6 +27,7 @@ public class AgentStateMachine : StateMachine
     public Animator Animator { get; private set; }
     public StateInfo StateInfo { get; private set; }
     public Combat Combat { get; private set; }
+    public Health Health { get; private set; }
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class AgentStateMachine : StateMachine
         NavMeshAgent = GetComponent<NavMeshAgent>();
         StateInfo = GetComponent<StateInfo>();
         Combat = GetComponent<Combat>();
+        Health = GetComponent<Health>();
     }
 
     private void Start()

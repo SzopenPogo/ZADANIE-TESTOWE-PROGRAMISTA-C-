@@ -71,6 +71,7 @@ public class Combat : MonoBehaviour
         return true;
     }
 
+    public void ResetActiveEnemy() => ActiveEnemy = null;
     private void AttackEnemy(Combat enemy)
     {
         //Try set enemy as an Active Enemy
