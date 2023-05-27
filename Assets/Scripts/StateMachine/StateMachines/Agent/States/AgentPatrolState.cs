@@ -16,16 +16,24 @@ public class AgentPatrolState : AgentBaseState
 
     public override void Enter()
     {
+        //State Info
+        stateMachine.StateInfo.SetCurrentStateInfo(StateType.Patrol);
+
         //Values
         SetMovementSpeed(stateMachine.MovementSpeed);
 
         //Animation
         stateMachine.Animator.CrossFadeInFixedTime(MovementBlendTreeHash, CrossFadeDuration);
         stateMachine.Animator.SetFloat(MovementSpeedHash, GetMovementSpeedPercent());
+
+        //Subs
+        stateMachine.Combat.OnNewEnemyEvent += SetAttackState;
     }
 
     public override void Exit()
     {
+        //Subs
+        stateMachine.Combat.OnNewEnemyEvent -= SetAttackState;
     }
 
     public override void FixedTick(float deltaTime)

@@ -25,11 +25,16 @@ public class AgentStateMachine : StateMachine
     //Components
     public NavMeshAgent NavMeshAgent { get; private set; }
     public Animator Animator { get; private set; }
+    public StateInfo StateInfo { get; private set; }
+    public Combat Combat { get; private set; }
 
     private void Awake()
     {
+        //Get attached Components
         Animator = agentModel.GetComponent<Animator>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
+        StateInfo = GetComponent<StateInfo>();
+        Combat = GetComponent<Combat>();
     }
 
     private void Start()

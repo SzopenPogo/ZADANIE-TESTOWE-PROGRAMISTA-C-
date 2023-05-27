@@ -31,4 +31,9 @@ public abstract class AgentBaseState : State
 
         return false;
     }
+
+    protected void SetAttackState()
+    {
+        stateMachine.SwitchState(new AgentAttackState(stateMachine));
+    }
 }
