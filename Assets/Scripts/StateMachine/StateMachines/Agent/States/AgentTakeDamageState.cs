@@ -19,7 +19,7 @@ public class AgentTakeDamageState : AgentBaseState
     public override void Enter()
     {
         //State Info
-        stateMachine.StateInfo.SetCurrentStateInfo(StateType.Attack);
+        stateMachine.StateInfo.SetCurrentStateInfo(StateType.TakeDamage);
 
         //Animation
         stateMachine.Animator.CrossFadeInFixedTime(TakeDamageAnimationHash, CrossFadeDuration);
@@ -53,6 +53,14 @@ public class AgentTakeDamageState : AgentBaseState
             stateMachine.Combat.ResetActiveEnemy();
             stateMachine.Health.DealDamage(Damage);
 
+            //If Agent is dead
+            if (!stateMachine.Health.IsAlive)
+            {
+                SetDeathState();
+                return;
+            }
+
+            //Check agent waiting enemies
             if (stateMachine.Combat.WaitingEnemies.Count > 0)
             {
                 stateMachine.Combat.TryAttackEnemy();

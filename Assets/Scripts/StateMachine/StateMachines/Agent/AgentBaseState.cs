@@ -87,4 +87,9 @@ public abstract class AgentBaseState : State
     {
         stateMachine.SwitchState(new AgentTakeDamageState(stateMachine));
     }
+
+    protected void SetDeathState()
+    {
+        stateMachine.SwitchState(new AgentDeathState(stateMachine));
+    }
 }

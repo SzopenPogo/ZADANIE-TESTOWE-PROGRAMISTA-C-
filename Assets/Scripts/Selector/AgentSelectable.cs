@@ -21,7 +21,7 @@ public class AgentSelectable : Selectable
     public override void Unselect()
     {
         base.Unselect();
-        UiAgentBar.Instance.DisableBar();
+        UiAgentBar.Instance?.DisableBar();
         pointLight.SetActive(false);
     }
 }

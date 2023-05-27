@@ -13,6 +13,7 @@ public class Health : MonoBehaviour
     //Values
     [field: SerializeField, Range(MinHealthRange, MaxHealthRange)] public int MaxHealth {  get; private set; }
     public int CurrentHealth { get; private set; }
+    public bool IsAlive { get; private set; }
 
     //Actions
     public Action OnDie;
@@ -21,14 +22,18 @@ public class Health : MonoBehaviour
     private void Start()
     {
         SetHealth(MaxHealth);
+        IsAlive = true;
     }
 
     private void SetHealth(int health)
     {
         CurrentHealth = Mathf.Clamp(health, MinHealth, MaxHealth);
 
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= MinHealth)
+        {
+            IsAlive = false;
             OnDie?.Invoke();
+        }
 
         OnHealthChanged?.Invoke();
     }

@@ -7,9 +7,8 @@ public class Combat : MonoBehaviour
 {
     //Consts
     private const float ProtectionTime = 5f;
+    private const string DeadTag = "Dead";
 
-    //Data
-    
     //Enemy Data
     public Combat ActiveEnemy { get; private set; }
     public List<Combat> WaitingEnemies { get; private set; } = new();
@@ -72,6 +71,7 @@ public class Combat : MonoBehaviour
     }
 
     public void ResetActiveEnemy() => ActiveEnemy = null;
+
     private void AttackEnemy(Combat enemy)
     {
         //Try set enemy as an Active Enemy
@@ -93,14 +93,30 @@ public class Combat : MonoBehaviour
         enemy.RemoveWaitingEnemy(this);
     }
 
+    private void RemoveDeadEnemiesFromWaitingEnemies()
+    {
+        //WaitingEnemies.RemoveAll(e => e.gameObject.CompareTag(DeadTag));
+        WaitingEnemies.RemoveAll(e => {
+            if (e == null)
+                return true;
+
+            return e.gameObject.CompareTag(DeadTag);
+        });
+    }
+
     public void TryAttackEnemy()
     {
         if (ActiveEnemy != null)
             return;
 
+        RemoveDeadEnemiesFromWaitingEnemies();
+
         foreach (Combat enemy in WaitingEnemies)
         {
             if (enemy.ActiveEnemy != null)
+                continue;
+
+            if (enemy.gameObject.CompareTag(DeadTag))
                 continue;
 
             AttackEnemy(enemy);

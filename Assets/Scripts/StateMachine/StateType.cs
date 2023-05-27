@@ -7,5 +7,6 @@ public enum StateType
     Patrol,
     Attack,
     Idle,
-    TakeDamage
+    TakeDamage,
+    Death
 }

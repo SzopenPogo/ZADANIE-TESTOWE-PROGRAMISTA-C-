@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class AgentSpawner : MonoBehaviour
 {
@@ -12,15 +13,25 @@ public class AgentSpawner : MonoBehaviour
     [field: Header("Data")]
     [field: SerializeField] private AgentSpawnerSpawnData spawnData;
     [field: SerializeField] public AgentSpawnerAreaData AreaData { get; private set; }
+    private List<GameObject> agents = new();
+    private bool isAgentsRespawning;
 
     private void OnValidate() => ValidateData();
 
     private void Awake() => Instance = this;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+            Debug.Log(agents.Count);
+    }
+
     private void Start()
     {
         ValidateData();
         SpawnStartAgents();
+
+        StartCoroutine(AgentRespawner());
     }
 
     private void ValidateData()
@@ -42,14 +53,51 @@ public class AgentSpawner : MonoBehaviour
 
     private void SpawnAgent()
     {
+        //Set agent
         GameObject agent = agentsPrefabs[GetRandomAgentIndex()];
         agent.transform.position = GetRandomPointInAgentArea();
-        Instantiate(agent, transform);
+
+        //Spawn agent
+        GameObject spawnedAgent = Instantiate(agent, transform);
+        agents.Add(spawnedAgent);
     }
 
     private void SpawnStartAgents()
     {
         for (int i = 0; i < spawnData.startAgents; i++)
             SpawnAgent();
+    }
+
+    private float GetRandomSpawnDelay()
+    {
+        return UnityEngine.Random.Range(spawnData.minSpawnAgentDelay,
+            spawnData.maxSpawnAgentDelay);
+    }
+
+    private IEnumerator AgentRespawner()
+    {
+        if (isAgentsRespawning || agents.Count >= spawnData.maxAgents)
+            yield break;
+
+        isAgentsRespawning = true;
+
+        while (agents.Count < spawnData.maxAgents)
+        {
+            yield return new WaitForSeconds(GetRandomSpawnDelay());
+            SpawnAgent();
+        }
+
+        isAgentsRespawning = false;
+    }
+
+    public void DestroyAgent(GameObject agent)
+    {
+        if (!agents.Contains(agent))
+            return;
+
+        agents.Remove(agent);
+        Destroy(agent);
+
+        StartCoroutine(AgentRespawner());
     }
 }

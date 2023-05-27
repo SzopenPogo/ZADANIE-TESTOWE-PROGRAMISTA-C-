@@ -28,6 +28,7 @@ public class AgentPatrolState : AgentBaseState
         //Subs
         stateMachine.Combat.OnWaitingEvent += SetWaitingState;
         stateMachine.Combat.OnAttackEvent += SetAttackState;
+        stateMachine.Health.OnDie += SetDeathState;
     }
 
     public override void Exit()
@@ -35,6 +36,7 @@ public class AgentPatrolState : AgentBaseState
         //Subs
         stateMachine.Combat.OnWaitingEvent -= SetWaitingState;
         stateMachine.Combat.OnAttackEvent -= SetAttackState;
+        stateMachine.Health.OnDie -= SetDeathState;
     }
 
     public override void FixedTick(float deltaTime)

@@ -37,7 +37,11 @@ public class AgentWaitingState : AgentBaseState
 
     public override void FixedTick(float deltaTime)
     {
-
+        if (!IsEnemyAlive())
+        {
+            SetPatrolState();
+            return;
+        }
     }
 
     public override void LateTick(float deltaTime)
@@ -48,5 +52,17 @@ public class AgentWaitingState : AgentBaseState
     public override void Tick(float deltaTime)
     {
         stateMachine.Combat.TryAttackEnemy();
+        
+    }
+
+    private bool IsEnemyAlive()
+    {
+        if (stateMachine.Combat.ActiveEnemy == null)
+            return false;
+
+        if (!stateMachine.Combat.ActiveEnemy.gameObject.TryGetComponent(out Health enemyHealth))
+            return false;
+
+        return enemyHealth.IsAlive;
     }
 }

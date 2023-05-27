@@ -28,6 +28,7 @@ public class AgentStateMachine : StateMachine
     public StateInfo StateInfo { get; private set; }
     public Combat Combat { get; private set; }
     public Health Health { get; private set; }
+    public AgentSelectable Selectable { get; private set; }
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class AgentStateMachine : StateMachine
         StateInfo = GetComponent<StateInfo>();
         Combat = GetComponent<Combat>();
         Health = GetComponent<Health>();
+        Selectable = GetComponent<AgentSelectable>();
     }
 
     private void Start()

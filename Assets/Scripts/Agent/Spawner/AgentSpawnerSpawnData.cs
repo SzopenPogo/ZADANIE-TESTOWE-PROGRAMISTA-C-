@@ -9,6 +9,8 @@ public class AgentSpawnerSpawnData
     private const int MaxStartAgentsInInspector = 5;
     private const float MinSpawnAgentDelay = 2f;
     private const float MaxSpawnAgentDelay = 6f;
+    private const int MinSpawnAgents = 0;
+    private const int MaxSpawnAgents = 30;
 
     [field: Header("Agent Values")]
     //Start Agents
@@ -31,7 +33,7 @@ public class AgentSpawnerSpawnData
 
     //Max Agents
     [field: SerializeField]
-    [Range(0, 30)]
+    [Range(MinSpawnAgents, MaxSpawnAgents)]
     [Tooltip("Maximum number of spawned agents")]
     public int maxAgents = 10;
 
