@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Combat : MonoBehaviour
 {
     //Consts
     private const float ProtectionTime = 5f;
     private const string DeadTag = "Dead";
+    private const float MinimumDistance = 2f;
 
     //Enemy Data
     public Combat ActiveEnemy { get; private set; }
@@ -104,18 +106,34 @@ public class Combat : MonoBehaviour
         });
     }
 
+    private float GetDistanceToEnemy(Transform enemyTransform)
+    {
+        return Vector3.Distance(transform.position, enemyTransform.position);
+    }
+
+    private void RemoveOutOfAttackRangeEnemies()
+    {
+        WaitingEnemies.RemoveAll(e =>
+        {
+            return GetDistanceToEnemy(e.transform) > MinimumDistance;
+        });
+    }
+
     public void TryAttackEnemy()
     {
         if (ActiveEnemy != null)
             return;
 
         RemoveDeadEnemiesFromWaitingEnemies();
+        RemoveOutOfAttackRangeEnemies();
 
         foreach (Combat enemy in WaitingEnemies)
         {
+            //If enemy don't have active enemy
             if (enemy.ActiveEnemy != null)
                 continue;
 
+            //If enemy is dead
             if (enemy.gameObject.CompareTag(DeadTag))
                 continue;
 

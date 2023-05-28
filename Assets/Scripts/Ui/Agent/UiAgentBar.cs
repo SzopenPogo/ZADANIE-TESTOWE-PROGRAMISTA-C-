@@ -68,7 +68,7 @@ public class UiAgentBar : MonoBehaviour
     public void DisableBar()
     {
         ResetAgent();
-        agentDataContainer.SetActive(false);
+        agentDataContainer?.SetActive(false);
     }
 
     public void UpdateBar()

@@ -13,13 +13,19 @@ public class AgentSelectable : Selectable
 
     public override void Select()
     {
+        if (IsSelected)
+            return;
+
         base.Select();
-        UiAgentBar.Instance.InitializeBar(health, data.Agent);
+        UiAgentBar.Instance?.InitializeBar(health, data.Agent);
         pointLight.SetActive(true);
     }
 
     public override void Unselect()
     {
+        if (!IsSelected)
+            return;
+
         base.Unselect();
         UiAgentBar.Instance?.DisableBar();
         pointLight.SetActive(false);
