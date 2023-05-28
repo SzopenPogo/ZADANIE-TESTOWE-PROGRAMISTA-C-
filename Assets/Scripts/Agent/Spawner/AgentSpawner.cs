@@ -12,19 +12,11 @@ public class AgentSpawner : MonoBehaviour
 
     [field: Header("Data")]
     [field: SerializeField] private AgentSpawnerSpawnData spawnData;
-    [field: SerializeField] public AgentSpawnerAreaData AreaData { get; private set; }
     private List<GameObject> agents = new();
     private bool isAgentsRespawning;
-
     private void OnValidate() => ValidateData();
 
     private void Awake() => Instance = this;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-            Debug.Log(agents.Count);
-    }
 
     private void Start()
     {
@@ -37,25 +29,15 @@ public class AgentSpawner : MonoBehaviour
     private void ValidateData()
     {
         spawnData.ValidateData();
-        AreaData.Validate();
     }
 
-    public Vector3 GetRandomPointInAgentArea()
-    {
-        Vector3 spawnPoint = Vector3.zero;
-        spawnPoint.x = UnityEngine.Random.Range(0, AreaData.AgentAreaBounds.x);
-        spawnPoint.z = UnityEngine.Random.Range(0, AreaData.AgentAreaBounds.y);
-
-        return spawnPoint;
-    }
-
-    private int GetRandomAgentIndex() => UnityEngine.Random.Range(0, agentsPrefabs.Count);
+    private int GetRandomAgentPrefabIndex() => UnityEngine.Random.Range(0, agentsPrefabs.Count);
 
     private void SpawnAgent()
     {
         //Set agent
-        GameObject agent = agentsPrefabs[GetRandomAgentIndex()];
-        agent.transform.position = GetRandomPointInAgentArea();
+        GameObject agent = agentsPrefabs[GetRandomAgentPrefabIndex()];
+        agent.transform.position = Area.Instance.GetRandomPointInActiveArea();
 
         //Spawn agent
         GameObject spawnedAgent = Instantiate(agent, transform);

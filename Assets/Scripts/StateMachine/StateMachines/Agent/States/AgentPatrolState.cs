@@ -69,6 +69,6 @@ public class AgentPatrolState : AgentBaseState
         if (stateMachine.NavMeshAgent.hasPath)
             return;
 
-        SetDestination(AgentSpawner.Instance.GetRandomPointInAgentArea());
+        SetDestination(Area.Instance.GetRandomPointInActiveArea());
     }
 }
