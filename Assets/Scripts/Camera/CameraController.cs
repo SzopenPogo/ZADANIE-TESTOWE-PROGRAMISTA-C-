@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     [field: SerializeField, Range(0f, 30f)] private float moveSpeed = 15f;
     [field: SerializeField, Range(0f, 150f)] private float rotationSpeed = 75;
 
+    //Values
     private Vector3 inputMoveDirection = Vector3.zero;
     private Vector3 inputRotationDirection = Vector3.zero;
 
@@ -73,7 +74,23 @@ public class CameraController : MonoBehaviour
         return inputRotationDirection * rotationSpeed * Time.deltaTime;
     }
 
-    private void UpdateCameraPosition() => targetObjectTransform.position += GetMoveValue();
+    private void UpdateCameraPosition()
+    {
+        //If player is not moving
+        if (InputReader.Instance.MovementValue == Vector2.zero)
+            return;
+
+        Vector3 updatedCameraPosition = targetObjectTransform.position + GetMoveValue();
+
+        //If updated camera position is out of active area
+        if (updatedCameraPosition.x >= Area.Instance.AreaData.ActiveAreaBounds.x ||
+            updatedCameraPosition.z >= Area.Instance.AreaData.ActiveAreaBounds.y ||
+            updatedCameraPosition.x <= 0 || updatedCameraPosition.z <= 0)
+            return;
+
+        //Update camera position
+        targetObjectTransform.position = updatedCameraPosition;
+    }
 
     private void UpdateCameraRotation()
     {
