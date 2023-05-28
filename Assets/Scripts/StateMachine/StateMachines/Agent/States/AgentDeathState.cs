@@ -49,7 +49,6 @@ public class AgentDeathState : AgentBaseState
 
         if (normalizedTime > 1f)
         {
-            //stateMachine.Selectable.Unselect();
             AgentSpawner.Instance.DestroyAgent(stateMachine.gameObject);
         }
     }
