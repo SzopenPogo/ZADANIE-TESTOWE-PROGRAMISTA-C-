@@ -17,9 +17,8 @@ public class AreaData
     [Tooltip("Active Area offset.")]
     [Range(20f, 55f)]
     private float ActiveAreaOffset;
-    [field: SerializeField]
+
     public Vector2 MaxInactiveAreaBounds { get; private set; } = new(15f, 15f);
-    [field: SerializeField]
     public Vector2 MinInactiveAreaBounds { get; private set; } = new(15f, 15f);
 
     public void ValidateAreaData()

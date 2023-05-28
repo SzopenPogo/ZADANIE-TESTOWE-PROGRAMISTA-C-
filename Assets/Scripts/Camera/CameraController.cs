@@ -14,6 +14,18 @@ public class CameraController : MonoBehaviour
     private Vector3 inputMoveDirection = Vector3.zero;
     private Vector3 inputRotationDirection = Vector3.zero;
 
+    private void Start()
+    {
+        InputReader.Instance.CenterCameraEvent += SetCameraToActiveAreaCenter;
+
+        SetCameraToActiveAreaCenter();
+    }
+
+    private void OnDestroy()
+    {
+        InputReader.Instance.CenterCameraEvent -= SetCameraToActiveAreaCenter;
+    }
+
     private void Update()
     {
         //Update Values
@@ -23,6 +35,12 @@ public class CameraController : MonoBehaviour
         //Update camera
         UpdateCameraPosition();
         UpdateCameraRotation();
+    }
+
+    public void SetCameraToActiveAreaCenter()
+    {
+        targetObjectTransform.position = new Vector3(Area.Instance.AreaData.ActiveAreaBounds.x /2,
+            0f, Area.Instance.AreaData.ActiveAreaBounds.y /2);
     }
 
     private void UpdateInputMoveDirectionValue()

@@ -71,6 +71,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CenterCamera"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6fe6363-cf7d-47ba-98d2-adc1866eb2c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ceb82f76-234a-4460-86b5-3af6e7387ce8"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""CenterCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -202,6 +222,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_MouseDelta = m_Player.FindAction("MouseDelta", throwIfNotFound: true);
         m_Player_MouseLeftClick = m_Player.FindAction("MouseLeftClick", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
+        m_Player_CenterCamera = m_Player.FindAction("CenterCamera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +289,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MouseDelta;
     private readonly InputAction m_Player_MouseLeftClick;
     private readonly InputAction m_Player_Cancel;
+    private readonly InputAction m_Player_CenterCamera;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -277,6 +299,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @MouseDelta => m_Wrapper.m_Player_MouseDelta;
         public InputAction @MouseLeftClick => m_Wrapper.m_Player_MouseLeftClick;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
+        public InputAction @CenterCamera => m_Wrapper.m_Player_CenterCamera;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +324,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
+            @CenterCamera.started += instance.OnCenterCamera;
+            @CenterCamera.performed += instance.OnCenterCamera;
+            @CenterCamera.canceled += instance.OnCenterCamera;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -320,6 +346,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
+            @CenterCamera.started -= instance.OnCenterCamera;
+            @CenterCamera.performed -= instance.OnCenterCamera;
+            @CenterCamera.canceled -= instance.OnCenterCamera;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -353,5 +382,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnMouseDelta(InputAction.CallbackContext context);
         void OnMouseLeftClick(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnCenterCamera(InputAction.CallbackContext context);
     }
 }

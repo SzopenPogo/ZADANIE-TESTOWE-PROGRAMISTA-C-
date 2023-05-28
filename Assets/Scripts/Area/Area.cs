@@ -73,6 +73,7 @@ public class Area : MonoBehaviour
         Vector3 position = GetRandomPointInInactiveArea();
         bool isValidPosition = true;
 
+        //Check if genereted spawn point isn't occupated
         for (int i = 0; i < spawnedDecorations.Count; i++)
         {
             if (Vector3.Distance(position, spawnedDecorations[i].transform.position) > decorationOffset)
@@ -86,15 +87,16 @@ public class Area : MonoBehaviour
             return GenerateDecorationPosition(decoration);
 
         position.y = decoration.transform.position.y;
-        Debug.Log(decoration.transform.position.y);
         return position;
     }
 
     private void GenerateDecoration()
     {
+        //Create decoration
         GameObject decoration = decorationsPrefabs[UnityEngine.Random.Range(0, decorationsPrefabs.Count)];
         decoration.transform.position = GenerateDecorationPosition(decoration);
 
+        //Spawn decoration
         GameObject spawnedDecoration = Instantiate(decoration, decorationsContainer);
         spawnedDecorations.Add(spawnedDecoration);
     }

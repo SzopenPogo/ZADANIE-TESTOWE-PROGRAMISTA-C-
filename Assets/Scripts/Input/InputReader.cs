@@ -22,6 +22,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     //Actions
     public Action MouseLeftClickEvent;
     public Action CancelClickEvent;
+    public Action CenterCameraEvent;
 
     private void Awake() => Instance = this;
 
@@ -70,5 +71,13 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
             return;
 
         CancelClickEvent?.Invoke();
+    }
+
+    public void OnCenterCamera(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+            return;
+
+        CenterCameraEvent?.Invoke();
     }
 }
